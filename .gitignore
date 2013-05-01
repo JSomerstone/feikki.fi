@@ -2,3 +2,5 @@ vendor/*
 app/*.cache
 app/cache/*
 nbproject/
+app/config/parameters.yml
+app/logs/*
