@@ -1,6 +1,6 @@
-_welcome:
-    pattern:  /
-    defaults: { _controller: AcmeDemoBundle:Welcome:index }
+_feikki.base:
+    prefix: /
+    resource: "@FeikkiSiteBundle/Resources/config/routing.yml"
 
 _demo_secured:
     resource: "@AcmeDemoBundle/Controller/SecuredController.php"

@@ -1,0 +1,3 @@
+_feikki.frontpage:
+    pattern: /
+    defaults:  { _controller: FeikkiSiteBundle:Content:index }
