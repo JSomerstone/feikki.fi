@@ -4,12 +4,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset={{ _charset }}"/>
         <meta name="robots" content="{% block robots %}noindex,nofollow{% endblock %}" />
         <title>{% block title %}{% endblock %}</title>
-        <link href="{{ asset('bundles/framework/css/structure.css') }}" rel="stylesheet" type="text/css" media="all" />
-        <link href="{{ asset('bundles/framework/css/body.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" media="all">
         {% block head %}{% endblock %}
     </head>
     <body>
         {% block body %}
         {% endblock %}
+        <script src="{{ asset('js/bootstrap.js') }}"></script>
     </body>
 </html>
