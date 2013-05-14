@@ -15,19 +15,23 @@ else
 fi
 
 tempFolder="/tmp/feikki.fi.$tag";
-echo "Creting temporary folder $tempFolder";
+echo "* Creting temporary folder $tempFolder";
 mkdir $tempFolder
 
 for needed in app src vendor web README.md bin composer.*
 do
+    echo " - copying $needed"
     cp -rf $projectRoot/$needed $tempFolder/
 done
 
-echo "Creating $tempFolder.tar.gz packet"
+echo "* Cleaning up cache"
+rm -rf $tempFolder/app/cache/*
+
+echo "* Creating $tempFolder.tar.gz packet"
 cd /tmp;
 tar -czf "feikki.fi.$tag.tar.gz" "feikki.fi.$tag"
 
-echo "Cleaning up";
+echo "* Cleaning up";
 rm -rf $tempFolder;
 
 echo "You can now deploy feikki.fi from file /tmp/feikki.fi.$tag.tar.gz";

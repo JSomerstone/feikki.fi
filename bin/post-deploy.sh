@@ -11,6 +11,7 @@ do
 done
 
 echo "Cleaning dev & test cache, warming up production";
+rm -rf app/cache/*
 php composer.phar install --optimize-autoloader;
 php app/console cache:clear --env=prod --no-debug;
 
