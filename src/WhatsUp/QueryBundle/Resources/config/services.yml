@@ -1,0 +1,7 @@
+parameters:
+#    whats_up_query.example.class: WhatsUp\QueryBundle\Example
+
+services:
+#    whats_up_query.example:
+#        class: %whats_up_query.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
