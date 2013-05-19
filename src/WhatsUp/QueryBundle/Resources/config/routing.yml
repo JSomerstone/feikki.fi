@@ -1,9 +1,16 @@
-_WhatsUpQueryBundle.query.whois:
+_whatsup.query.index:
     pattern:  /
     defaults:
       _controller: WhatsUpQueryBundle:Default:index
-_WhatsUpQueryBundle.query.whois:
+
+_whatsup.query.whois:
     pattern:  /whois/{domain}
     defaults:
       _controller: WhatsUpQueryBundle:Backend:checkDomain
+      _format: json
+
+_whatsup.query.some:
+    pattern:  /socialmedia/{media}/{name}
+    defaults:
+      _controller: WhatsUpQueryBundle:Backend:checkSocialMedia
       _format: json

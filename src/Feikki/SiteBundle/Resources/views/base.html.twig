@@ -4,12 +4,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset={{ _charset }}"/>
         <meta name="robots" content="{% block robots %}noindex,nofollow{% endblock %}" />
         <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" media="all">
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" media="all">
+        <link rel="stylesheet" href="{{ asset('bundles/feikkisite/css/normalize.css') }}" type="text/css" media="all">
         {% block head %}{% endblock %}
     </head>
     <body>
         {% block body %}
         {% endblock %}
-        <script src="{{ asset('js/bootstrap.js') }}"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+        {% block bodyscripts '' %}
     </body>
 </html>

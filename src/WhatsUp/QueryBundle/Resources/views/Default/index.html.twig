@@ -1,14 +1,45 @@
-{% extends 'FeikkiSiteBundle::base.html.twig' %}
+{% extends 'FeikkiSiteBundle::layout.html.twig' %}
 {% block head %}
+    <link rel="stylesheet" href="{{ asset('bundles/whatsupquery/css/whatsup.css') }}" type="text/css" media="all">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title %}Whats Up? - {{ pagetitle }}{% endblock %}
 {% endblock %}
-{% block content_header '' %}
-{% block body %}
-    <div class="page-header">
-        {% block page_header '' %}
+{% block title %}Whats Up? - {{ pagetitle }}{% endblock %}
+{% block page_header %}
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>Whats Up? - {{ pagetitle }}</h1>
+        </div>
     </div>
-    <div class="content">
-        {% block content '' %}
+{% endblock %}
+{% block content %}
+    <div class="row-fluid">
+        <div class="content span8 offset2">
+            <div class="row">
+                <p>
+                    "Whats Up" can be used to search if given name is 
+                    available on Twitter, Facebook and web domains. 
+                    Unfortunetly we cannot quarentee the answers 
+                    provided. It is for informational purposes only.
+                </p>
+                <form>
+                    <input id="name-field" name="name" value="{{ prefilled }}"type="text" class="input-large search-query"/>
+                    <button id="search-btn" class="btn btn-primary">Whats up?</button>
+                </form>
+            </div>
+            <div id="result-container" class="row">
+                <div class="span6">
+                    <h2>Social media</h2>
+                    <p>Coming up</p>
+                </div>
+                <div class="span6">
+                    <h2>Domains</h2>
+                    <ul id="domain-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
+{% block bodyscripts %}
+    <script src="{{ asset('bundles/whatsupquery/js/whatsup.js') }}"></script>
 {% endblock %}

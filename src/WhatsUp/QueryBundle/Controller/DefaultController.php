@@ -8,6 +8,12 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('WhatsUpQueryBundle:Default:index.html.twig');
+        $prefilled = $this->getRequest()->get('name') ?: null;
+        return $this->render(
+            'WhatsUpQueryBundle:Default:index.html.twig', array(
+                'pagetitle' => 'Availability search',
+                'prefilled' => $prefilled
+            )
+        );
     }
 }

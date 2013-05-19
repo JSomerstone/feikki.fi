@@ -34,8 +34,53 @@ class BackendController extends Controller
         return self::successResponse(
             'Lookup succeeded',
             array(
-                'registred' => $this->isFound($result),
+                'registred' => $this->isWhoIsEntryFound($result),
                 'whois' => $result,
+            )
+        );
+    }
+    
+    /**
+     * 
+     * @param string $media
+     * @param string $name
+     * @return JsonResponse
+     */
+    public function checkSocialMediaAction($media, $name)
+    {
+        try {
+            
+            switch ($media){
+                case 'twitter':
+                    return $this->checkTwitter($name);
+                default:
+                    throw new \InvalidArgumentException("Unsupported media $media");
+            }
+        } catch (\Exception $e){
+            return self::failureResponse(
+                'Unable to check social media: '. $e->getMessage()
+            );
+        }
+    }
+    
+    /**
+     * Checks if given twitter account exists or not
+     * @param string $name
+     */
+    public function checkTwitter($name)
+    {
+        $url = sprintf('https://twitter.com/%s', $name);
+        try {
+            $content = file_get_contents($url);
+            $registered = true;
+        } catch (\Exception $e) {
+            $registered = false;
+        }
+        return self::successResponse(
+            'Social media check succeeded', 
+            array(
+                'registered' => $registered,
+                'link' => $url,
             )
         );
     }
@@ -62,12 +107,13 @@ class BackendController extends Controller
         return new JsonResponse($content);
     }
     
-    protected static function isFound($whoIsResult)
+    private static function isWhoIsEntryFound($whoIsResult)
     {
         $nots = array(
             'not (entries|registered|found)',
             'no (entries|data) found',
-            'available',
+            'status:\savailable',
+            ' \- Available',
             'no match',
             'no records matching',
             'nothing found',
@@ -75,7 +121,6 @@ class BackendController extends Controller
         );
         
         $regexp = sprintf('/(%s)/i', implode(')|(', $nots));
-        
         return preg_match(
             $regexp, 
             $whoIsResult

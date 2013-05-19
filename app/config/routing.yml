@@ -1,6 +1,7 @@
 _feikki.base:
     prefix: /
     resource: "@FeikkiSiteBundle/Resources/config/routing.yml"
-_WhatsUpQueryBundle:
-    prefix:   /whatsup
+
+_whatsup.query:
+    prefix:   /whatsup/
     resource: "@WhatsUpQueryBundle/Resources/config/routing.yml"
