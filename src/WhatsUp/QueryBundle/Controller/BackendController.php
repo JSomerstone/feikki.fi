@@ -34,7 +34,7 @@ class BackendController extends Controller
         return self::successResponse(
             'Lookup succeeded',
             array(
-                'registred' => $this->isWhoIsEntryFound($result),
+                'registered' => $this->isWhoIsEntryFound($result),
                 'whois' => utf8_encode($result),
             )
         );
@@ -136,7 +136,7 @@ class BackendController extends Controller
         $nots = array(
             'not (entries|registered|found)',
             'no (entries|data) found',
-            'status:\savailable',
+            'status:\s+(available|free)',
             ' \- Available',
             'no match',
             'no records matching',

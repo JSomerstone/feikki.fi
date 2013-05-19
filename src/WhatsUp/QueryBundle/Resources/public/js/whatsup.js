@@ -4,7 +4,7 @@ $(function(){
         event.preventDefault();
         
         var topLevelDomains = [
-            'com', 'net', 'org', 'eu', 'uk', 
+            'com', 'net', 'org', 'eu',
             'ca', 'de', 'jp', 'fr', 'au', 'us', 'ru', 'it', 'fi'
         ];
         
@@ -45,7 +45,7 @@ $(function(){
         }).done(function(response) {
             if ( ! response.success) {
                 icon.addClass('icon-warning-sign').attr('title', 'Error occured');
-            } else if ( ! response.registred) {
+            } else if ( ! response.registered) {
                 icon.addClass('icon-ok-sign').attr('title', 'Is available');
             } else {
                 icon.addClass('icon-exclamation-sign').attr('title', 'Is already taken');
@@ -74,7 +74,7 @@ $(function(){
         }).done(function(response) {
             if ( ! response.success) {
                 icon.addClass('icon-warning-sign').attr('title', 'Error occured');
-            } else if ( ! response.registred) {
+            } else if ( ! response.registered) {
                 icon.addClass('icon-ok-sign').attr('title', 'Is available');
             } else {
                 icon.addClass('icon-exclamation-sign').attr('title', 'Is already taken');
