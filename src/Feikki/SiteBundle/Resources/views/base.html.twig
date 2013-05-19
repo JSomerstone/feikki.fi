@@ -12,7 +12,7 @@
     <body>
         {% block body %}
         {% endblock %}
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="{{ asset('js/jquery-1.9.1.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
         {% block bodyscripts '' %}
     </body>
