@@ -52,6 +52,8 @@ class BackendController extends Controller
             switch (strtolower($media)){
                 case 'twitter':
                     return $this->checkTwitter($name);
+                case 'facebook':
+                    return $this->checkFacebook($name);
                 default:
                     throw new \InvalidArgumentException("Unsupported media $media");
             }
@@ -76,8 +78,31 @@ class BackendController extends Controller
             $registered = false;
         }
         return self::successResponse(
-            'Social media check succeeded', 
+            'Twitter check succeeded', 
             array(
+                'registered' => $registered,
+                'link' => $url,
+            )
+        );
+    }
+    
+    /**
+     * Checks if given twitter account exists or not
+     * @param string $name
+     */
+    public function checkFacebook($name)
+    {
+        $url = sprintf('https://facebook.com/%s', $name);
+        try {
+            $content = file_get_contents($url);
+            $registered = true;
+        } catch (\Exception $e) {
+            $registered = false;
+        }
+        return self::successResponse(
+            'Facebook check succeeded', 
+            array(
+                'response' => $content,
                 'registered' => $registered,
                 'link' => $url,
             )
