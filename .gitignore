@@ -5,4 +5,3 @@ nbproject/
 app/config/parameters.yml
 app/logs/*
 web/bundles/*
-composer.lock

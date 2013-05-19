@@ -27,6 +27,7 @@ done
 echo "* Cleaning up cache"
 rm -rf $tempFolder/app/cache/*
 
+echo "Version $givenTag on $(date +"%Y-%m-%d")" >> $tempFolder/web/version.txt
 echo "* Creating $tempFolder.tar.gz packet"
 cd /tmp;
 tar -czf "feikki.fi.$tag.tar.gz" "feikki.fi.$tag"
