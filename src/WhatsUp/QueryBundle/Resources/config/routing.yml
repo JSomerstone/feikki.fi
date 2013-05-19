@@ -8,9 +8,17 @@ _whatsup.query.whois:
     defaults:
       _controller: WhatsUpQueryBundle:Backend:checkDomain
       _format: json
+    requirements:
+      method: GET
+      _format: json
+      domain: "[a-z0-9]+.[a-z]{2,6}"
 
 _whatsup.query.some:
     pattern:  /socialmedia/{media}/{name}
     defaults:
       _controller: WhatsUpQueryBundle:Backend:checkSocialMedia
-      _format: json
+      #_format: json
+    requirements:
+      method: GET
+      #_format: json
+      #name: "[a-z0-9]+"

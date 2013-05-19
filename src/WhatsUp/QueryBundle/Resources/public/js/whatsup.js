@@ -1,18 +1,38 @@
 $(function(){
+    
+    var nameInputMask = /^[a-z0-9\x08\x00]+$/i;
+    
+    var onNameFieldKeyDown = function(event)
+    {
+        var char = String.fromCharCode(event.which);
+        if ( ! nameInputMask.test(char)) {
+            event.preventDefault();
+        }
+    };
+    
     var doSearch = function(event)
     {
         event.preventDefault();
+        var theName = $('#name-field').val().toLowerCase();
+        if ( ! nameInputMask.test(theName)) {
+            $('#name-group').addClass('error');
+            $('#name-field-help').append('Allowed characters a-z, 0-9');
+            return false;
+        } else {
+            $('#name-group').removeClass('error');
+            $('#name-field-help').empty();
+        }
         
         var topLevelDomains = [
             'com', 'net', 'org', 'eu',
-            'ca', 'de', 'jp', 'fr', 'au', 'us', 'ru', 'it', 'fi'
+            'ca', 'de', 'jp', 'fr', 
+            'us', 'ru', 'it', 'fi'
         ];
         
         var someSites = [
             'Twitter'
         ];
         
-        var theName = $('#name-field').val();
         
         $('#domain-list').empty();
         $('#some-list').empty();
@@ -29,7 +49,7 @@ $(function(){
         var listIconId = 'li-' + name + domain;
         var li = [
             '<li>',
-                name, '.', domain, 
+                name, '.<b>', domain, '</b>', 
                 '&nbsp;',
                 '<span id="', listIconId ,'"',
                     ' class="icon">',
@@ -83,4 +103,6 @@ $(function(){
     };
     
     $('#search-btn').click(doSearch);
+    $('#name-field').keypress(onNameFieldKeyDown).focus();
+    
 });

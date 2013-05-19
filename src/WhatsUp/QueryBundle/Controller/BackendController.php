@@ -52,8 +52,8 @@ class BackendController extends Controller
             switch (strtolower($media)){
                 case 'twitter':
                     return $this->checkTwitter($name);
-                case 'facebook':
-                    return $this->checkFacebook($name);
+                //case 'facebook':
+                //    return $this->checkFacebook($name);
                 default:
                     throw new \InvalidArgumentException("Unsupported media $media");
             }

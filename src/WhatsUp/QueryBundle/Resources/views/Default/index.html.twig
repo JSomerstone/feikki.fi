@@ -6,8 +6,8 @@
 {% block title %}Whats Up? - {{ pagetitle }}{% endblock %}
 {% block page_header %}
     <div class="row-fluid">
-        <div class="span12 offset2">
-            <h1>Whats Up? - {{ pagetitle }}</h1>
+        <div class="span12">
+            <h1 class="offset2">Whats Up? - {{ pagetitle }}</h1>
         </div>
     </div>
 {% endblock %}
@@ -22,18 +22,32 @@
                     provided. It is for informational purposes only.
                 </p>
                 <form>
-                    <input id="name-field" name="name" value="{{ prefilled }}"type="text" class="input-large search-query"/>
-                    <button id="search-btn" class="btn btn-primary">Whats up?</button>
+                    <div id="name-group" class="control-group">
+                        <input 
+                            id="name-field" 
+                            name="name" 
+                            value="{{ prefilled }}"
+                            placeholder="Type something…"
+                            type="text" 
+                            class="search-query"
+                            maxlength="24"
+                            required="required"
+                            autofocus="autofocus"
+                        />
+                        <button id="search-btn" class="btn btn-primary">Whats up?</button>
+                        <br />
+                        <span id="name-field-help" class="help-inline"></span>
+                    </div>
                 </form>
             </div>
             <div id="result-container" class="row">
                 <div class="span6">
-                    <h2>Social media</h2>
+                    <h3>Social media</h3>
                     <ul id="some-list">
                     </ul>
                 </div>
                 <div class="span6">
-                    <h2>Domains</h2>
+                    <h3>Domains</h3>
                     <ul id="domain-list">
                     </ul>
                 </div>
