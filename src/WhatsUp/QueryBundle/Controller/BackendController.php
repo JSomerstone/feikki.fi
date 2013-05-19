@@ -35,7 +35,7 @@ class BackendController extends Controller
             'Lookup succeeded',
             array(
                 'registred' => $this->isWhoIsEntryFound($result),
-                'whois' => $result,
+                'whois' => utf8_encode($result),
             )
         );
     }
@@ -49,8 +49,7 @@ class BackendController extends Controller
     public function checkSocialMediaAction($media, $name)
     {
         try {
-            
-            switch ($media){
+            switch (strtolower($media)){
                 case 'twitter':
                     return $this->checkTwitter($name);
                 default:
