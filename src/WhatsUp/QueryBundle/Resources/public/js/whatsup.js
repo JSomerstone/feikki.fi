@@ -33,7 +33,10 @@ $(function(){
         ];
         
         var someSites = [
-            'Twitter', 'Facebook', 'GitHub'
+            'Twitter', 
+            'Facebook', 
+            'LinkedIn',
+            'GitHub'
         ];
         
         $('#domain-list').empty();
@@ -81,13 +84,13 @@ $(function(){
         var listIconId = ['li', name, media].join('-');
         var li = [
             '<li><a id="', linkId, '" href="#" target="BLANK">',
-                media, ' / ', name,
+                media, ' / ', name, '</a>',
                 '&nbsp;',
                 '<span id="', listIconId ,'"',
                     ' class="icon">',
                     '&nbsp;',
                 '</span>',
-            '</a></li>'
+            '</li>'
         ];
         $('#some-list').append(li.join(''));
         var icon = $('#' + listIconId);

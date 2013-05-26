@@ -32,7 +32,7 @@ class BackendController extends Controller
         }
         
         $registered = $this->isWhoIsEntryFound($result);
-        $message = $registered ? 'Domain is registered' : 'Domain seems to be free';
+        $message = $registered ? 'Domain seems to be registered' : 'Domain seems to be free';
         
         return self::successResponse(
             $message,
@@ -59,6 +59,8 @@ class BackendController extends Controller
                     return $this->checkGithub($name);
                 case 'facebook':
                     return $this->checkFacebook($name);
+                case 'linkedin':
+                    return $this->checkLinkedIn($name);
                 default:
                     throw new \InvalidArgumentException("Unsupported media");
             }
@@ -98,20 +100,26 @@ class BackendController extends Controller
      */
     protected function checkFacebook($name)
     {
-        $url = sprintf('https://facebook.com/%s', $name);
+        $url = sprintf('https://graph.facebook.com/search?q=%s&type=page', $name);
+        $registered = false;
         try {
-            $content = file_get_contents($url);
-            $registered = true;
+            $content = json_decode(file_get_contents($url));
         } catch (\Exception $e) {
-            $registered = false;
+            return self::failureResponse('Error occured ' . $e->getMessage());
         }
         
-        if ( empty ($content) || ! $registered) {
+        if ($content && ! empty($content->data)) {
+            $registered = true;
+            $result = current($content->data);
+            $link = sprintf('https://facebook.com/%d', $result->id);
+            $message = sprintf('%s (%s)', $result->name, $result->category);
+        }
+        else {
             $registered = false;
-            $url = 'https://facebook.com';
+            $link = 'https://facebook.com/r.php';
         }
         
-        return self::socialMediaResponse($registered, $url);
+        return self::socialMediaResponse($registered, $link, $message);
     }
     
     /**
@@ -136,12 +144,46 @@ class BackendController extends Controller
         return self::socialMediaResponse($registered, $url);
     }
     
-    protected static function socialMediaResponse($registered, $link)
+    /**
+     * Checks if given twitter account exists or not
+     * @param string $name
+     */
+    protected function checkLinkedIn($name)
     {
-        return self::successResponse(
-           $registered 
+        $url = sprintf('http://www.linkedin.com/ta/federator?query=%s&types=company', $name);
+        $registered = false;
+        $message = null;
+        
+        try {
+            $content = json_decode(file_get_contents($url));
+        } catch (\Exception $e) {
+            return self::failureResponse('Error occured ' . $e->getMessage());
+        }
+        
+        if (isset($content->company) && !empty($content->company->resultList)) {
+            $registered = true;
+            $result = current($content->company->resultList);
+            $link = $result->url;
+            $message = sprintf('%s (%s)', $result->displayName, $result->subLine);
+        } else {
+            $registered = false;
+            $link = 'https://www.linkedin.com/reg/join';
+        }
+        
+        return self::socialMediaResponse($registered, $link, $message);
+    }
+    
+    protected static function socialMediaResponse($registered, $link, $message = null)
+    {
+        if ($message){
+            //
+        } else {
+            $message = $registered 
                 ? 'Account seems to be registered' 
-                : 'Account seems to be free', 
+                : 'Account seems to be free';
+        }
+        return self::successResponse(
+           $message, 
             array(
                 'registered' => $registered,
                 'link' => $link
