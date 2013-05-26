@@ -18,7 +18,7 @@ class BackendController extends Controller
      *      - registred (bool), If the domain is registered or not
      *              (Best quess from the response)
      *      - whois (string), The response to WHOIS lookup
-     *      
+     *
      * @param string $domain
      * @return JsonResponse
      */
@@ -30,10 +30,10 @@ class BackendController extends Controller
         } catch (\Exception $e) {
             return self::failureResponse($e->getMessage());
         }
-        
+
         $registered = $this->isWhoIsEntryFound($result);
         $message = $registered ? 'Domain seems to be registered' : 'Domain seems to be free';
-        
+
         return self::successResponse(
             $message,
             array(
@@ -42,9 +42,9 @@ class BackendController extends Controller
             )
         );
     }
-    
+
     /**
-     * 
+     *
      * @param string $media
      * @param string $name
      * @return JsonResponse
@@ -70,30 +70,38 @@ class BackendController extends Controller
             );
         }
     }
-    
+
     /**
      * Checks if given twitter account exists or not
      * @param string $name
      */
     protected function checkTwitter($name)
     {
-        $url = sprintf('https://twitter.com/%s', $name);
-        $content = '';
+        $url = sprintf('https://api.twitter.com/1/users/lookup.json?screen_name=%s&include_entities=false', $name);
+        $link = 'https://twitter.com/signup';
+        $message = null;
         try {
-            $content = file_get_contents($url);
-            $registered = true;
+            $content = json_decode(file_get_contents($url));
         } catch (\Exception $e) {
+            return self::socialMediaResponse(false, $link);
+        }
+
+        if ( ! empty($content)) {
+            $registered = true;
+            $result = current($content);
+            $link = sprintf('https://twitter.com/%s', $result->screen_name);
+            $message = sprintf(
+                '%s (@%s)',
+                $result->name,
+                $result->screen_name
+            );
+        }
+        else {
             $registered = false;
         }
-        
-        if ( empty ($content) || ! $registered) {
-            $registered = false;
-            $url = 'https://twitter.com/signup'; 
-        }
-        
-        return self::socialMediaResponse($registered, $url);
+        return self::socialMediaResponse($registered, $link, $message);
     }
-    
+
     /**
      * Checks if given twitter account exists or not
      * @param string $name
@@ -101,13 +109,13 @@ class BackendController extends Controller
     protected function checkFacebook($name)
     {
         $url = sprintf('https://graph.facebook.com/search?q=%s&type=page', $name);
-        $registered = false;
+        $message = null;
         try {
             $content = json_decode(file_get_contents($url));
         } catch (\Exception $e) {
             return self::failureResponse('Error occured ' . $e->getMessage());
         }
-        
+
         if ($content && ! empty($content->data)) {
             $registered = true;
             $result = current($content->data);
@@ -118,10 +126,10 @@ class BackendController extends Controller
             $registered = false;
             $link = 'https://facebook.com/r.php';
         }
-        
+
         return self::socialMediaResponse($registered, $link, $message);
     }
-    
+
     /**
      * Checks if given twitter account exists or not
      * @param string $name
@@ -135,15 +143,15 @@ class BackendController extends Controller
         } catch (\Exception $e) {
             $registered = false;
         }
-        
+
         if ( empty ($content) || ! $registered) {
             $registered = false;
             $url = 'https://github.com/';
         }
-        
+
         return self::socialMediaResponse($registered, $url);
     }
-    
+
     /**
      * Checks if given twitter account exists or not
      * @param string $name
@@ -153,13 +161,13 @@ class BackendController extends Controller
         $url = sprintf('http://www.linkedin.com/ta/federator?query=%s&types=company', $name);
         $registered = false;
         $message = null;
-        
+
         try {
             $content = json_decode(file_get_contents($url));
         } catch (\Exception $e) {
             return self::failureResponse('Error occured ' . $e->getMessage());
         }
-        
+
         if (isset($content->company) && !empty($content->company->resultList)) {
             $registered = true;
             $result = current($content->company->resultList);
@@ -169,28 +177,28 @@ class BackendController extends Controller
             $registered = false;
             $link = 'https://www.linkedin.com/reg/join';
         }
-        
+
         return self::socialMediaResponse($registered, $link, $message);
     }
-    
+
     protected static function socialMediaResponse($registered, $link, $message = null)
     {
         if ($message){
             //
         } else {
-            $message = $registered 
-                ? 'Account seems to be registered' 
+            $message = $registered
+                ? 'Account seems to be registered'
                 : 'Account seems to be free';
         }
         return self::successResponse(
-           $message, 
+           $message,
             array(
                 'registered' => $registered,
                 'link' => $link
             )
         );
     }
-    
+
     protected static function failureResponse($message)
     {
         return new JsonResponse(
@@ -200,19 +208,19 @@ class BackendController extends Controller
             )
         );
     }
-    
+
     protected static function successResponse($message, $additionalData = array())
     {
         $response = array(
             'success' => true,
             'message' => $message
         );
-        
+
         $content = array_merge($response, $additionalData);
-        
+
         return new JsonResponse($content);
     }
-    
+
     private static function isWhoIsEntryFound($whoIsResult)
     {
         $nots = array(
@@ -225,10 +233,10 @@ class BackendController extends Controller
             'nothing found',
             'does not exist',
         );
-        
+
         $regexp = sprintf('/(%s)/i', implode(')|(', $nots));
         return preg_match(
-            $regexp, 
+            $regexp,
             $whoIsResult
         ) ? false : true;
     }
