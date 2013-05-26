@@ -86,6 +86,7 @@ class BackendController extends Controller
         
         if ( empty ($content) || ! $registered) {
             $registered = false;
+            $url = 'https://twitter.com/signup'; 
         }
         
         return self::socialMediaResponse($registered, $url);
@@ -107,6 +108,7 @@ class BackendController extends Controller
         
         if ( empty ($content) || ! $registered) {
             $registered = false;
+            $url = 'https://facebook.com';
         }
         
         return self::socialMediaResponse($registered, $url);
@@ -128,6 +130,7 @@ class BackendController extends Controller
         
         if ( empty ($content) || ! $registered) {
             $registered = false;
+            $url = 'https://github.com/';
         }
         
         return self::socialMediaResponse($registered, $url);
