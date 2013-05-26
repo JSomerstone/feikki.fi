@@ -1,11 +1,14 @@
 $(function(){
     
-    var nameInputMask = /^[a-z0-9\x08\x00]+$/i;
+    var nameInputMask = /^[a-z0-9\x08\x00\x13]+$/i;
     
     var onNameFieldKeyDown = function(event)
     {
         var char = String.fromCharCode(event.which);
-        if ( ! nameInputMask.test(char)) {
+        //Enter
+        if (event.which === 13) {
+            return true;
+        } else if ( ! nameInputMask.test(char)) {
             event.preventDefault();
         }
     };
@@ -30,9 +33,8 @@ $(function(){
         ];
         
         var someSites = [
-            'Twitter'
+            'Twitter', 'Facebook', 'GitHub'
         ];
-        
         
         $('#domain-list').empty();
         $('#some-list').empty();
@@ -64,40 +66,50 @@ $(function(){
             url: "whois/" + name + '.' + domain
         }).done(function(response) {
             if ( ! response.success) {
-                icon.addClass('icon-warning-sign').attr('title', 'Error occured');
+                icon.addClass('icon-warning-sign').attr('title', response.message);
             } else if ( ! response.registered) {
-                icon.addClass('icon-ok-sign').attr('title', 'Is available');
+                icon.addClass('icon-ok-sign').attr('title', response.message);
             } else {
-                icon.addClass('icon-exclamation-sign').attr('title', 'Is already taken');
+                icon.addClass('icon-exclamation-sign').attr('title', response.message);
             }
         });
     };
     
     var searchForSocialMedia = function(name, media)
     {
+        var linkId = ['a', name, media].join('-');
         var listIconId = ['li', name, media].join('-');
         var li = [
-            '<li>',
+            '<li><a id="', linkId, '" href="#" target="BLANK">',
                 media, ' / ', name,
                 '&nbsp;',
                 '<span id="', listIconId ,'"',
                     ' class="icon">',
                     '&nbsp;',
                 '</span>',
-            '</li>'
+            '</a></li>'
         ];
         $('#some-list').append(li.join(''));
         var icon = $('#' + listIconId);
+        var link = $('#' + linkId);
         
         $.ajax({
             url: "socialmedia/" + media + '/' + name
-        }).done(function(response) {
+        })
+        .fail(function(response) {
+            icon.addClass('icon-warning-sign').attr('title', response.message);
+        })
+        .done(function(response) {
             if ( ! response.success) {
-                icon.addClass('icon-warning-sign').attr('title', 'Error occured');
+                icon.addClass('icon-warning-sign').attr('title', response.message);
             } else if ( ! response.registered) {
-                icon.addClass('icon-ok-sign').attr('title', 'Is available');
+                icon.addClass('icon-ok-sign').attr('title', response.message);
             } else {
-                icon.addClass('icon-exclamation-sign').attr('title', 'Is already taken');
+                icon.addClass('icon-exclamation-sign').attr('title', response.message);
+            }
+            
+            if (response.link) {
+                link.attr('href', response.link);
             }
         });
     };
@@ -106,3 +118,15 @@ $(function(){
     $('#name-field').keypress(onNameFieldKeyDown).focus();
     
 });
+
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) { 
+      return typeof args[number] !== 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}

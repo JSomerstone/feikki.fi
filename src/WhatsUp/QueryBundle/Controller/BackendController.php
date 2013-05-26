@@ -31,10 +31,13 @@ class BackendController extends Controller
             return self::failureResponse($e->getMessage());
         }
         
+        $registered = $this->isWhoIsEntryFound($result);
+        $message = $registered ? 'Domain is registered' : 'Domain seems to be free';
+        
         return self::successResponse(
-            'Lookup succeeded',
+            $message,
             array(
-                'registered' => $this->isWhoIsEntryFound($result),
+                'registered' => $registered,
                 'whois' => utf8_encode($result),
             )
         );
@@ -52,10 +55,12 @@ class BackendController extends Controller
             switch (strtolower($media)){
                 case 'twitter':
                     return $this->checkTwitter($name);
-                //case 'facebook':
-                //    return $this->checkFacebook($name);
+                case 'github':
+                    return $this->checkGithub($name);
+                case 'facebook':
+                    return $this->checkFacebook($name);
                 default:
-                    throw new \InvalidArgumentException("Unsupported media $media");
+                    throw new \InvalidArgumentException("Unsupported media");
             }
         } catch (\Exception $e){
             return self::failureResponse(
@@ -68,29 +73,29 @@ class BackendController extends Controller
      * Checks if given twitter account exists or not
      * @param string $name
      */
-    public function checkTwitter($name)
+    protected function checkTwitter($name)
     {
         $url = sprintf('https://twitter.com/%s', $name);
+        $content = '';
         try {
             $content = file_get_contents($url);
             $registered = true;
         } catch (\Exception $e) {
             $registered = false;
         }
-        return self::successResponse(
-            'Twitter check succeeded', 
-            array(
-                'registered' => $registered,
-                'link' => $url,
-            )
-        );
+        
+        if ( empty ($content) || ! $registered) {
+            $registered = false;
+        }
+        
+        return self::socialMediaResponse($registered, $url);
     }
     
     /**
      * Checks if given twitter account exists or not
      * @param string $name
      */
-    public function checkFacebook($name)
+    protected function checkFacebook($name)
     {
         $url = sprintf('https://facebook.com/%s', $name);
         try {
@@ -99,12 +104,44 @@ class BackendController extends Controller
         } catch (\Exception $e) {
             $registered = false;
         }
+        
+        if ( empty ($content) || ! $registered) {
+            $registered = false;
+        }
+        
+        return self::socialMediaResponse($registered, $url);
+    }
+    
+    /**
+     * Checks if given twitter account exists or not
+     * @param string $name
+     */
+    protected function checkGithub($name)
+    {
+        $url = sprintf('https://github.com/%s', $name);
+        try {
+            $content = file_get_contents($url);
+            $registered = true;
+        } catch (\Exception $e) {
+            $registered = false;
+        }
+        
+        if ( empty ($content) || ! $registered) {
+            $registered = false;
+        }
+        
+        return self::socialMediaResponse($registered, $url);
+    }
+    
+    protected static function socialMediaResponse($registered, $link)
+    {
         return self::successResponse(
-            'Facebook check succeeded', 
+           $registered 
+                ? 'Account seems to be registered' 
+                : 'Account seems to be free', 
             array(
-                'response' => $content,
                 'registered' => $registered,
-                'link' => $url,
+                'link' => $link
             )
         );
     }
