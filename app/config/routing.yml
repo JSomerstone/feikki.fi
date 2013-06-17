@@ -1,3 +1,7 @@
+feikki_tupas:
+    resource: "@FeikkiTupasBundle/Resources/config/routing.yml"
+    prefix:   /
+
 _feikki.base:
     prefix: /
     resource: "@FeikkiSiteBundle/Resources/config/routing.yml"
