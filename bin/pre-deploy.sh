@@ -8,11 +8,14 @@ echo "Startin pre-deployment of Feikki.fi";
 
 echo -n "Enter release tag [$dateStamp] > ";
 read givenTag
-if ["$givenTag" = ""]; then
+if ["$givenTag" == ""]; then
     tag=$dateStamp;
 else
     tag=$givenTag;
 fi
+
+echo "* Installing assets";
+php app/console assets:install;
 
 tempFolder="/tmp/feikki.fi.$tag";
 echo "* Creting temporary folder $tempFolder";
