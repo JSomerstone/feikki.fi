@@ -22,7 +22,6 @@ class AppKernel extends Kernel
             new Feikki\SiteBundle\FeikkiSiteBundle(),
             new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
             new WhatsUp\QueryBundle\WhatsUpQueryBundle(),
-            new Feikki\TupasBundle\FeikkiTupasBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
