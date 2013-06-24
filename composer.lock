@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2879ae4365bec8337ed8ce269eb6532b",
+    "hash": "9d81d21e8d73391f0631cc11ff567b06",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -1037,21 +1037,21 @@
             "type": "library"
         },
         {
-            "name": "jsomerstone/jaxtoolbox",
+            "name": "jsomerstone/feikki/tupasbundle",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/JSomerstone/jaxToolbox-lib.git",
+                "url": "https://github.com/JSomerstone/feikki-tupasbundle.git",
                 "reference": "master"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/JSomerstone/jaxToolbox-lib/archive/master.zip",
+                "url": "https://github.com/JSomerstone/feikki-tupasbundle/archive/master.zip",
                 "reference": null,
                 "shasum": null
             },
             "type": "library",
-            "time": "2013-05-14 19:49:15"
+            "time": "2013-06-24 17:56:27"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1897,7 +1897,8 @@
         "braincrafted/bootstrap-bundle": 20,
         "twitter/bootstrap": 20,
         "sclinternet/scl-socket": 20,
-        "sclinternet/scl-whois": 20
+        "sclinternet/scl-whois": 20,
+        "jsomerstone/feikki/tupasbundle": 20
     },
     "platform": {
         "php": ">=5.3.3"
