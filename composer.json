@@ -33,6 +33,22 @@
                 }
             }
         },
+        "jsomerstone/dayswithout": {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "jsomerstone/dayswithout",
+                "source": {
+                    "url": "https://github.com/JSomerstone/DaysWithoutX.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "dist": {
+                    "url": "https://github.com/JSomerstone/DaysWithoutX/archive/master.zip",
+                    "type": "zip"
+                }
+            }
+        },
         "sclsocket": {
             "type": "package",
             "package": {
@@ -112,7 +128,8 @@
         "jquery/jquery": "1.9.*",
         "sclinternet/scl-socket": "dev-master",
         "sclinternet/scl-whois": "dev-master",
-        "jsomerstone/feikki/tupasbundle": "dev-master"
+        "jsomerstone/feikki/tupasbundle": "dev-master",
+        "jsomerstone/dayswithout": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -131,7 +148,7 @@
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "alpha",
+    "minimum-stability": "stable",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
