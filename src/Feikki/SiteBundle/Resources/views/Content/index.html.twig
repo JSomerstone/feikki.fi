@@ -5,26 +5,44 @@
 {% block content_header '' %}
 
 {% block content %}
-    {% set version = constant('Symfony\\Component\\HttpKernel\\Kernel::MAJOR_VERSION') ~ '.' ~ constant('Symfony\\Component\\HttpKernel\\Kernel::MINOR_VERSION')%}
-
     <h1 class="title">Feikki.fi</h1>
+    <p>
+        Feikki.fi (as in "fake") is a hobby-project of mine. I'll publish here
+        various web-applications that I might create. The original idea was
+        to provide TUPAS-authentication service for web-developers to develop
+        and test their applications with. And do so with more flexibility than
+        those "testing-credentials" provided by some banks. Feikki.fi/tupas
+        will (at some point in the future) provide this service.
+    </p>
+    <p>
+        While TUPAS-authentication is still under construction, I have done
+        few other services - <a href="whatsup/">WhatsUp?</a>-searc and
+        <a href="dayswithout/">Days Without</a> -counter.
+        <i>
+            Days Without -counter is still very early in development and might
+            (and propably will) lose it's data at some point.
+        </i>
+    </p>
+    <p>
 
-    <h2>Done</h2>
-    <ul>
-        <li>Julkaisua helpottavat skriptit</li>
-        <li>Twitter bootsrap -integointi</li>
-        <li>Julkaisu webbiin</li>
-        <li>Etusivu</li>
-        <li>Symfony2 projekti</li>
-    </ul>
-    
-    <h2>Todo:</h2>
+    </p>
+
+    <h3>Todo:</h3>
     <ul>
         <li>Layout</li>
-        <li>Graafinen ilme</li>
-        <li>Kuvaus</li>
-        <li>TUPAS-bundleen sisältöä</li>
+        <li>Look</li>
+        <li>TUPAS-authentication-service</li>
     </ul>
-    <p><i>12.5.2013 Joona Somerkivi</i></p>
+
+    <h3>Done</h3>
+    <ul>
+        <li><a href="dayswithout/">Days Without</a> -counter for anything <i>2013-10-07</i></li>
+        <li><a href="whatsup/">WhatsUp?</a> social media and domain search</li>
+        <li>Twitter bootsrap -integration</li>
+        <li>Publishing</li>
+        <li>New Symfony2-project</li>
+    </ul>
+
+    <p><i>Author: <a href="https://github.com/JSomerstone">Joona Somerkivi</a></i></p>
 
 {% endblock %}

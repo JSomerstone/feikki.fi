@@ -3,10 +3,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
 {% block body %}
-    <div class="page-header">
-        {% block page_header '' %}
-    </div>
-    <div class="content">
-        {% block content '' %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="content span12">
+                {% block page_header '' %}
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="content span8 offset2">
+                {% block content '' %}
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -16,7 +16,3 @@ _configurator:
 
 _main:
     resource: routing.yml
-
-_dayswithout:
-    resource: "@JSomerstoneDaysWithoutBundle/Resources/config/routing.yml"
-    prefix:   /beta/dayswithout

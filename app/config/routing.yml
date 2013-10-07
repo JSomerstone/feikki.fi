@@ -5,3 +5,7 @@ _feikki.base:
 _whatsup.query:
     prefix:   /whatsup/
     resource: "@WhatsUpQueryBundle/Resources/config/routing.yml"
+
+_dayswithout:
+    resource: "@JSomerstoneDaysWithoutBundle/Resources/config/routing.yml"
+    prefix:   /dayswithout
